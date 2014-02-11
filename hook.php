@@ -25,7 +25,9 @@ if(isset($_POST["payload"])){
 		$result['fetch'] = shell_exec($git . ' fetch --tags 2>&1');
 		$result['show_ref'] = shell_exec(sprintf($git . ' show-ref --tags -s %s 2>&1', $ref));
 		$result['show_ref'] = trim($result['show_ref']);
-		//if($head_commit_id == $result['show_ref']) {
+		//This doesn't seem to work
+		//if(strcmp($result['head_commit_id'], $result['show_ref']) == 0) {
+			//$result['checkout'] = 'Checking out';
 		//	$result['checkout'] = shell_exec(sprintf($git . ' checkout %s 2>&1', $ref));
 		//}
 	}
