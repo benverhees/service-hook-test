@@ -25,9 +25,10 @@ if(isset($_POST["payload"])){
 		$result['fetch'] = shell_exec($git . ' fetch --tags 2>&1');
 		$result['show_ref'] = trim(shell_exec(sprintf($git . ' show-ref --tags -s %s 2>&1', $ref)));
 		if(strcmp($result['head_commit_id'], $result['show_ref']) == 0) {
-			$result['checkout'] = shell_exec(sprintf($git . ' checkout %s 2>&1', $ref));
+			$result['checkout'] = shell_exec(sprintf($git . ' checkout -f %s 2>&1', $ref));
+			$result['status'] = shell_exec($git . ' status 2>&1');
 			$result['mailto'] = $payload->pusher->email;
-			mail($result['mailto'], 'Tag deployment', implode('\n', $result));
+			mail($result['mailto'], 'Deployment report for ' . $payload->repository->name . ': ' . $result['ref'], $result['checkout'] . "\n" . $result['status']);
 		}
 	}
 }
